@@ -5,8 +5,8 @@ build-backend = "poetry.masonry.api"
 [tool.poetry]
 name = "backend"
 version = "0.1.0"
-description = "Minimal Poetry example with Docker Multi-Stage builds"
-authors = ["Michael Oliver <mo175@live.com>"]
+description = "Poetry, Docker Multi-Staged, Geolocation API"
+authors = ["Vitor Cabral <vitorcabral19@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.7"
@@ -14,6 +14,7 @@ python = "^3.7"
 fastapi = "0.52.0"
 gunicorn = "^20.0.4"
 uvicorn = "^0.11.3"
+SQLAlchemy = "^1.4.32"
 
 
 [tool.poetry.dev-dependencies]
@@ -25,6 +26,7 @@ requests = "^2.23.0"
 
 
 [tool.black]
+# Black is the uncompromising Python code formatter
 # https://github.com/psf/black
 line-length = 88
 target_version = ['py38']
@@ -42,6 +44,7 @@ exclude = '''
 '''
 
 [tool.isort]
+# library to automaticaly sort imports
 # https://github.com/timothycrosley/isort
 # https://github.com/timothycrosley/isort/wiki/isort-Settings
 line_length = 88
