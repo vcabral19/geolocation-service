@@ -9,12 +9,13 @@ from app.middleware.app_logger import logger
 from app.model_geolocation import GeolocationModel
 
 
-def csv_handler(filepath: Path) -> List[Dict]:
+def csv_handler(filepath: Path, broken_lines_report: bool = False) -> List[Dict]:
     start_time = time.time()
+
     with open(filepath, "r") as file:
         reader = csv.reader(file)
 
-        parsable_rows = _csv_to_object(reader)
+        parsable_rows = _csv_to_object(reader, broken_lines_report)
     end_time = time.time()
     logger.info(
         f"Importing process took in total: ------ {end_time - start_time} seconds ------"
@@ -22,9 +23,7 @@ def csv_handler(filepath: Path) -> List[Dict]:
     return parsable_rows
 
 
-def _csv_to_object(
-    csv_reader: csv.reader, broken_line_report: bool = False
-) -> List[Dict]:
+def _csv_to_object(csv_reader: csv.reader, broken_lines_report: bool) -> List[Dict]:
     fields = next(csv_reader)
     rows = []
     for index, row in enumerate(csv_reader):
@@ -35,7 +34,7 @@ def _csv_to_object(
             else:
                 raise FieldsRowsMismatchError
         except Exception as error:
-            if broken_line_report:
+            if broken_lines_report:
                 logger.error(
                     f"Ops! line {index} of the .csv being parsed raised {error}"
                 )
