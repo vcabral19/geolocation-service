@@ -1,4 +1,5 @@
 import csv
+import time
 from pathlib import Path
 from typing import Dict, List, Type
 
@@ -9,15 +10,21 @@ from app.model_geolocation import GeolocationModel
 
 
 def csv_handler(filepath: Path) -> List[Dict]:
+    start_time = time.time()
     with open(filepath, "r") as file:
         reader = csv.reader(file)
 
         parsable_rows = _csv_to_object(reader)
-
+    end_time = time.time()
+    logger.info(
+        f"Importing process took in total: ------ {end_time - start_time} seconds ------"
+    )
     return parsable_rows
 
 
-def _csv_to_object(csv_reader: csv.reader) -> List[Dict]:
+def _csv_to_object(
+    csv_reader: csv.reader, broken_line_report: bool = False
+) -> List[Dict]:
     fields = next(csv_reader)
     rows = []
     for index, row in enumerate(csv_reader):
@@ -28,12 +35,21 @@ def _csv_to_object(csv_reader: csv.reader) -> List[Dict]:
             else:
                 raise FieldsRowsMismatchError
         except Exception as error:
-            logger.error(f"Ops! line {index} of the .csv being parsed raised {error}")
+            if broken_line_report:
+                logger.error(
+                    f"Ops! line {index} of the .csv being parsed raised {error}"
+                )
         else:
             rows.append(dict_row)
     unique_rows = [
         dict(tuple) for tuple in {tuple(sorted(dict.items())) for dict in rows}
     ]
+    result_len = len(unique_rows)
+    logger.info("The csv parsing and sanitization complete!")
+    logger.info(f"Total lines processed: {index + 1}")
+    logger.info(
+        f"Lines accepted: {result_len} - Lines discarded: {index + 1 - result_len}"
+    )
     return unique_rows
 
 
