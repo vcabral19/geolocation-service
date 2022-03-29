@@ -1,7 +1,7 @@
 from pathlib import Path
 
-from app.model_geolocation import GeolocationModel
 from app.data_library.csv_parser import csv_handler
+from app.model_geolocation import GeolocationModel
 
 CSV_PATH = Path("app").parent / "data/dummy.csv"
 

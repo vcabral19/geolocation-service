@@ -1,10 +1,10 @@
-import pydantic
 import csv
-
-from typing import List, Dict
 from pathlib import Path
+from typing import Dict, List
 
-from app.data_library.csv_parser import csv_handler, _csv_to_object
+import pydantic
+
+from app.data_library.csv_parser import _csv_to_object, csv_handler
 
 BROKEN_SCHEMA_DATA = "tests/resources/broken_schema_data.csv"
 INVALID_DATA = "tests/resources/test_invalid_data.csv"

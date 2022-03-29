@@ -1,7 +1,6 @@
 import csv
-
 from pathlib import Path
-from typing import Type, List, Dict
+from typing import Dict, List, Type
 
 from pydantic import BaseModel, ValidationError
 
