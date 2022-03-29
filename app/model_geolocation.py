@@ -5,7 +5,9 @@ from pydantic import BaseModel, constr, condecimal
 
 
 class GeolocationModel(BaseModel):
-    ip_address: constr(regex=r'(\b25[0-5]|\b2[0-4][0-9]|\b[01]?[0-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}')
+    ip_address: constr(
+        regex=r"(\b25[0-5]|\b2[0-4][0-9]|\b[01]?[0-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}"
+    )
     country_code: constr(min_length=1, max_length=5)
     country: constr(min_length=2, max_length=50)
     city: constr(min_length=2, max_length=50)

@@ -12,7 +12,6 @@ VALID_DATA = "tests/resources/test_valid_data.csv"
 
 
 def check_type(obj, expected_type):
-
     class Model(pydantic.BaseModel):
         data: expected_type
 

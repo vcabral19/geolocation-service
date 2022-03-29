@@ -1,7 +1,7 @@
 import csv
 
 from pathlib import Path
-from typing import Type, List, Tuple, Dict
+from typing import Type, List, Dict
 
 from pydantic import BaseModel, ValidationError
 
@@ -18,7 +18,7 @@ def csv_handler(filepath: Path) -> List[Dict]:
     return parsable_rows
 
 
-def _csv_to_object(csv_reader: csv.reader):
+def _csv_to_object(csv_reader: csv.reader) -> List[Dict]:
     fields = next(csv_reader)
     rows = []
     for index, row in enumerate(csv_reader):
@@ -32,7 +32,9 @@ def _csv_to_object(csv_reader: csv.reader):
             logger.error(f"Ops! line {index} of the .csv being parsed raised {error}")
         else:
             rows.append(dict_row)
-        unique_rows = [dict(tuple) for tuple in {tuple(sorted(dict.items())) for dict in rows}]
+    unique_rows = [
+        dict(tuple) for tuple in {tuple(sorted(dict.items())) for dict in rows}
+    ]
     return unique_rows
 
 
