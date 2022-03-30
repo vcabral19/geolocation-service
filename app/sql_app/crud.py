@@ -2,7 +2,6 @@ from typing import Dict, List
 
 from sqlalchemy.orm import Session
 
-from app.data_library import schema_geolocation
 from app.sql_app import models
 
 

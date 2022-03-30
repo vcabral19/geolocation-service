@@ -13,8 +13,8 @@ def test_read_item(testclient: TestClient):
     assert r.json()["item_id"] == 1
 
 
-def test_update_item(testclient: TestClient):
-    data = {"name": "New Item", "price": "0.38", "is_offer": True}
-    r = testclient.put("/items/1", json=data)
-    assert r.status_code == 200, r.text
-    assert r.json()["item_name"] == data["name"]
+# def test_update_item(testclient: TestClient):
+#     data = {"name": "New Item", "price": "0.38", "is_offer": True}
+#     r = testclient.put("/items/1", json=data)
+#     assert r.status_code == 200, r.text
+#     assert r.json()["item_name"] == data["name"]

@@ -1,5 +1,4 @@
 import csv
-import time
 from pathlib import Path
 from typing import Dict, List, Type
 
@@ -10,22 +9,20 @@ from app.middleware.app_logger import logger
 
 
 def csv_handler(filepath: Path, broken_lines_report: bool = False) -> List[Dict]:
-    start_time = time.time()
 
     with open(filepath, "r") as file:
         reader = csv.reader(file)
 
-        parsable_rows = _csv_to_object(reader, broken_lines_report)
-    end_time = time.time()
-    logger.info(
-        f"Importing process took in total: ------ {end_time - start_time} seconds ------"
-    )
+        parsable_rows = _extraction_pipeline(reader, broken_lines_report)
+
     return parsable_rows
 
 
-def _csv_to_object(csv_reader: csv.reader, broken_lines_report: bool) -> List[Dict]:
+def _extraction_pipeline(
+    csv_reader: csv.reader, broken_lines_report: bool
+) -> List[Dict]:
     fields = next(csv_reader)
-    rows = []
+    buffer = []
     for index, row in enumerate(csv_reader):
         try:
             if len(fields) == len(row):
@@ -39,9 +36,9 @@ def _csv_to_object(csv_reader: csv.reader, broken_lines_report: bool) -> List[Di
                     f"Ops! line {index} of the .csv being parsed raised {error}"
                 )
         else:
-            rows.append(dict_row)
+            buffer.append(dict_row)
     unique_rows = [
-        dict(tuple) for tuple in {tuple(sorted(dict.items())) for dict in rows}
+        dict(tuple) for tuple in {tuple(sorted(dict.items())) for dict in buffer}
     ]
     result_len = len(unique_rows)
     logger.info("The csv parsing and sanitization complete!")

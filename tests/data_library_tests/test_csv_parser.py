@@ -4,7 +4,7 @@ from typing import Dict, List
 
 import pydantic
 
-from app.data_library.csv_parser import _csv_to_object, csv_handler
+from app.data_library.geolocation_parser import _extraction_pipeline, csv_handler
 
 BROKEN_SCHEMA_DATA = "tests/resources/broken_schema_data.csv"
 INVALID_DATA = "tests/resources/test_invalid_data.csv"
@@ -30,13 +30,13 @@ class TestParser:
     def test_csv_to_object_valid_data(self):
         with open(VALID_DATA, "r") as file:
             reader = csv.reader(file)
-            result = _csv_to_object(reader)
+            result = _extraction_pipeline(reader)
 
         assert len(result) == 4
 
     def test_csv_to_object_invalid_data(self):
         with open(INVALID_DATA, "r") as file:
             reader = csv.reader(file)
-            result = _csv_to_object(reader)
+            result = _extraction_pipeline(reader)
 
         assert len(result) == 1
