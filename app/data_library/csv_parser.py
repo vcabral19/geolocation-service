@@ -5,8 +5,8 @@ from typing import Dict, List, Type
 
 from pydantic import BaseModel, ValidationError
 
-from app.middleware.app_logger import logger
 from app.data_library.schema_geolocation import GeolocationModel
+from app.middleware.app_logger import logger
 
 
 def csv_handler(filepath: Path, broken_lines_report: bool = False) -> List[Dict]:

@@ -72,3 +72,34 @@ We could then get a shell inside the container with:
 If you do not specify a target the resulting image will be the last image defined which in our case is the 'production' image.
 
 
+## Instructions
+
+Run the following command to run the migrations:
+
+```
+poetry run alembic -c app/alembic.ini revision --autogenerate
+```
+and then run this to apply the new schema to the database:
+```
+poetry run alembic -c app/alembic.ini upgrade head
+```
+
+To run the .csv loader application:
+```
+poetry run python -m app.data_library.data_loader
+```
+
+To run isort on the code:
+```
+poetry run isort --settings-path ./pyproject.toml --recursive 
+```
+
+To run black:
+```
+poetry run black --config pyproject.toml .
+```
+
+To run tests:
+```
+poetry run pytest ./tests
+```

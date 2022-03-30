@@ -4,9 +4,8 @@ from pathlib import Path
 from typing import Any
 
 
-def get_variable(variable_name: str, variable_type: Any = str) -> Any:
-    config_var = os.environ.get(variable_name, _get_config(variable_name))
-    return variable_type(config_var)
+def get_variable(variable_name: str) -> str:
+    return os.environ.get(variable_name, _get_config(variable_name))
 
 
 def _get_config(variable_name: str) -> str:
