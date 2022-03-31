@@ -4,7 +4,6 @@ from sqlalchemy.orm import sessionmaker
 
 from app.config import get_variable
 
-# TODO get this from env var (user, pwd, host and db)
 POSTGRES_USER = get_variable("POSTGRES_USER")
 POSTGRES_PWD = get_variable("POSTGRES_PWD")
 POSTGRES_SERVER = get_variable("POSTGRES_SERVER")
