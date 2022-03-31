@@ -22,7 +22,8 @@ FROM python-base as builder-base
 RUN apt-get update \
     && apt-get install --no-install-recommends -y \
         curl \
-        build-essential
+        build-essential \
+        libpq-dev
 
 # Install Poetry - respects $POETRY_VERSION & $POETRY_HOME
 ENV POETRY_VERSION=1.0.5
@@ -37,7 +38,7 @@ RUN poetry install --no-dev  # respects
 
 # 'development' stage installs all dev deps and can be used to develop code.
 # For example using docker-compose to mount local volume under /app
-FROM python-base as development
+FROM builder-base as development
 ENV FASTAPI_ENV=development
 
 # Copying poetry and venv into image
@@ -55,9 +56,10 @@ RUN poetry install
 WORKDIR /app
 COPY . .
 
+
 EXPOSE 8000
 ENTRYPOINT /docker-entrypoint.sh $0 $@
-CMD ["uvicorn", "--reload", "--host=0.0.0.0", "--port=8000", "main:app"]
+CMD ["uvicorn", "--reload", "--host=0.0.0.0", "--port=8000", "app.main:app"]
 
 
 # 'lint' stage runs black and isort
@@ -69,7 +71,7 @@ CMD ["tail", "-f", "/dev/null"]
 
 
 # 'test' stage runs our unit tests with pytest and
-# coverage.  Build will fail if test coverage is under 95%
+# coverage.  Build will fail if test coverage is under 70%
 FROM development AS test
 RUN coverage run --rcfile ./pyproject.toml -m pytest ./tests
 RUN coverage report --fail-under 70
@@ -77,7 +79,7 @@ RUN coverage report --fail-under 70
 
 # 'production' stage uses the clean 'python-base' stage and copyies
 # in only our runtime deps that were installed in the 'builder-base'
-FROM python-base as production
+FROM builder-base as production
 ENV FASTAPI_ENV=production
 
 COPY --from=builder-base $VENV_PATH $VENV_PATH
@@ -86,8 +88,8 @@ COPY ./docker/gunicorn_conf.py /gunicorn_conf.py
 COPY ./docker/docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh
 
-COPY ./app /app
 WORKDIR /app
+COPY . .
 
 ENTRYPOINT /docker-entrypoint.sh $0 $@
-CMD [ "gunicorn", "--worker-class uvicorn.workers.UvicornWorker", "--config /gunicorn_conf.py", "main:app"]
+CMD [ "gunicorn", "--worker-class uvicorn.workers.UvicornWorker", "--config /gunicorn_conf.py", "app.main:app"]

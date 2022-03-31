@@ -30,13 +30,24 @@ class TestParser:
     def test_csv_to_object_valid_data(self):
         with open(VALID_DATA, "r") as file:
             reader = csv.reader(file)
-            result = _extraction_pipeline(reader)
+            result = _extraction_pipeline(reader, True)
 
         assert len(result) == 4
 
     def test_csv_to_object_invalid_data(self):
+        expected_result = {
+            "city": "DuBuquemouth",
+            "country": "Nepal",
+            "country_code": "SI",
+            "ip_address": "200.106.141.15",
+            "latitude": "-84.87503094689836",
+            "longitude": "7.206435933364332",
+            "mystery_value": "7823011346",
+        }
+
         with open(INVALID_DATA, "r") as file:
             reader = csv.reader(file)
-            result = _extraction_pipeline(reader)
+            result = _extraction_pipeline(reader, True)
 
         assert len(result) == 1
+        assert result == [expected_result]
