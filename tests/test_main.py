@@ -1,6 +1,6 @@
 from fastapi.testclient import TestClient
 
-import tests.utils_test.sqlite_dependency as test_sql_dependency
+import tests.dependencies_test.sqlite_dependency as test_sql_dependency
 from app.main import app, get_db
 
 app.dependency_overrides[get_db] = test_sql_dependency.override_get_db

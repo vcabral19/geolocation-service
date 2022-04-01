@@ -1,15 +1,28 @@
+import os
 import time
 from math import trunc
 
 from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
 
+from app.config import app_running_env
 from app.data_library.schema_geolocation import GeolocationModel
 from app.middleware.app_logger import logger
 from app.sql_app.crud import get_geolocation_by_ip
-from app.sql_app.database import SessionLocal
+from app.sql_app.database import Base, SessionLocal, engine
 
 app = FastAPI()
+
+
+def auto_create_db_schema():
+    logger.info("Starting auto migrate of DB schema")
+    Base.metadata.create_all(bind=engine)
+    logger.info("DB Schema created successfully")
+
+
+logger.info(f"Geolocation Application ENVIRONMENT: {app_running_env}")
+if app_running_env == "dev":
+    auto_create_db_schema()
 
 
 def get_db():

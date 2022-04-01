@@ -28,6 +28,7 @@ def override_get_db():
 
 Base.metadata.create_all(bind=engine)
 
+
 with open(DATA_DUMP) as json_file:
     rows = json.load(json_file)
     json_file.close()

@@ -1,14 +1,21 @@
 version: '3.8'
 
 services:
-  server:
+  geolocation-service:
     build:
-      context: ./backend
-      dockerfile: Dockerfile
-    volumes:
-      - ./backend/:/backend/
-    command: uvicorn app.api.server:app --reload --workers 1 --host 0.0.0.0 --port 8000
-    env_file:
-      - ./backend/.env
+      context: ..
+      dockerfile: docker/Dockerfile
+      target: development
     ports:
       - 8000:8000
+    depends_on:
+      - db
+  db:
+    image: postgres
+    expose:
+      - 5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+

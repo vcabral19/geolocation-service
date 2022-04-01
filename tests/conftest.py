@@ -1,7 +1,10 @@
 import pytest
 from starlette.testclient import TestClient
 
+import tests.dependencies_test as dependencies
 from app.main import app
+
+print(f"ENVIRONMENT: {dependencies.env}")
 
 
 @pytest.fixture(scope="function")

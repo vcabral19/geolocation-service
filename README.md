@@ -71,8 +71,18 @@ We could then get a shell inside the container with:
 
 If you do not specify a target the resulting image will be the last image defined which in our case is the 'production' image.
 
+You can spin off postgre docker container to be used by the application by executing:
+
+```
+ docker run --name postgresql-container -p 5432:5432 -e POSTGRES_PASSWORD=postgres -d postgres
+```
 
 ## Instructions
+Run the following to quick build everything necessary to run the application in dev:
+```
+docker-compose -f docker/docker-compose.yml build --no-cache geolocation-service
+```
+and then run the following to start the application:
 
 Run the following command to run the migrations:
 

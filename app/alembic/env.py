@@ -27,11 +27,11 @@ target_metadata = Base.metadata
 # ... etc.
 
 POSTGRES_USER = get_variable("POSTGRES_USER")
-POSTGRES_PWD = get_variable("POSTGRES_PWD")
+POSTGRES_PASSWORD = get_variable("POSTGRES_PASSWORD")
 POSTGRES_SERVER = get_variable("POSTGRES_SERVER")
 POSTGRES_DB = get_variable("POSTGRES_DB")
 SQLALCHEMY_DATABASE_URL = (
-    f"postgresql://{POSTGRES_USER}:{POSTGRES_PWD}@{POSTGRES_SERVER}/{POSTGRES_DB}"
+    f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_SERVER}/{POSTGRES_DB}"
 )
 
 
