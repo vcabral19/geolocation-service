@@ -42,8 +42,8 @@ FROM builder-base as development
 ENV FASTAPI_ENV=development
 
 # Copying poetry and venv into image
-COPY --from=builder-base $POETRY_HOME $POETRY_HOME
-COPY --from=builder-base $PYSETUP_PATH $PYSETUP_PATH
+#COPY --from=builder-base $POETRY_HOME $POETRY_HOME
+#COPY --from=builder-base $PYSETUP_PATH $PYSETUP_PATH
 
 # Copying in our entrypoint
 COPY ./docker/docker-entrypoint.sh /docker-entrypoint.sh
