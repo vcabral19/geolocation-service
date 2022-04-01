@@ -77,12 +77,12 @@ RUN coverage run --rcfile ./pyproject.toml -m pytest ./tests
 RUN coverage report --fail-under 70
 
 
-# 'production' stage uses the clean 'python-base' stage and copyies
-# in only our runtime deps that were installed in the 'builder-base'
+
 FROM builder-base as production
 ENV FASTAPI_ENV=production
 
-COPY --from=builder-base $VENV_PATH $VENV_PATH
+#COPY --from=builder-base $VENV_PATH $VENV_PATH
+#RUN true
 COPY ./docker/gunicorn_conf.py /gunicorn_conf.py
 
 COPY ./docker/docker-entrypoint.sh /docker-entrypoint.sh
