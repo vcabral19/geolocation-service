@@ -21,7 +21,7 @@ Although you can start playing with the API immediately with the docker-compose 
 ---
 **NOTE** - Run all commands from the project root
 
-##tl;dr
+# tl;dr
 
 ### Start Application
 Run the following to quick build everything necessary to run the application in dev:
