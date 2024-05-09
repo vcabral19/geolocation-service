@@ -1,14 +1,12 @@
 # Gelocation over IP Service
 
-### This repo is relative to an API that returns Geolocations over a valid IP address
+### An API that returns Geolocations over a valid IP address
 
 Poetry managed Python FastAPI application with Docker multi-stage builds.
 
 This application uses docker-compose for development and Postgresql as a database.
 
-There is a very simple CI/CD pipeline for github actions under ".git" folder.
-
-Although you can start playing with the API immediately with the docker-compose command you should first import the data in a separate step described bellow.
+Although you can start playing with the API immediately with the docker-compose command you should first import the data in a separate step described below.
 
 ### Requirements
 
